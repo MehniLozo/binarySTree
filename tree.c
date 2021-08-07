@@ -6,7 +6,33 @@
 struct node*  create_tree(){return NULL;}
 
 
+void add_node_rec(struct node** root,int elem){ 
+    
+    if(!root)
+        return;
+   if((*root)->info == elem)
+      return; 
+    if((elem > (*root)->info && !((*root)->right)) || (elem < (*root)->info && !((*root)->left)))
+    {
+       //memory allocation 
+       struct node* newNode = (struct node*)malloc(sizeof(struct node));
+       newNode->info = elem;
+        newNode->left = NULL; 
+        newNode->right = NULL; 
+        if(elem > (*root)->info && !((*root)->right)) 
+            (*root)->right = newNode;
+        if(elem < (*root)->info && !((*root)->left))
+            (*root)->left = newNode;
+    }
+   if(elem > (*root)->info)
+        add_node_rec(&((*root)->right),elem);
+    if(elem < (*root)->info)
+        add_node_rec(&((*root)->left),elem);
+
+}
+
 void add_node(struct node** root,int elem){ 
+    //iterative method
    struct node* pt = *root,*father = NULL; 
    bool found = false;
    while(!found&& pt)
